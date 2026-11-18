@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface StudentService {
     StudentDto createStudent(StudentDto studentDto);
-    StudentDto getStudentBtId(Long studentId);
+    StudentDto getStudentById(Long studentId);
     List<StudentDto> getAllStudents();
     StudentDto updateStudent(Long studentId, StudentDto updateedstudentDto);
+    void deleteStudentByID(Long studentId);
 }
