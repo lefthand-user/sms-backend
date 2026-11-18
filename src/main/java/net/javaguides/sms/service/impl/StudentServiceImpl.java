@@ -39,4 +39,19 @@ public class StudentServiceImpl implements StudentService {
                 .map(StudentMapper::mapToStudentDto)
                         .collect(Collectors.toList());
     }
+
+    @Override
+    public StudentDto updateStudent(Long studentId, StudentDto updatedStudent) {
+        Student student = studentRepository.findById(studentId).orElseThrow(
+                () -> new ResourceNotFoundException("Student does not exist by the given id: " + studentId)
+        );
+
+        student.setFirstName(updatedStudent.getFirstName());
+        student.setLastName(updatedStudent.getLastName());
+        student.setEmail(updatedStudent.getEmail());
+
+        Student updatedStudentObj =  studentRepository.save(student);
+
+        return StudentMapper.mapToStudentDto(updatedStudentObj);
+    }
 }
