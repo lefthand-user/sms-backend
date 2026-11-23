@@ -10,4 +10,5 @@ public interface StudentService {
     List<StudentDto> getAllStudents();
     StudentDto updateStudent(Long studentId, StudentDto updateedstudentDto);
     void deleteStudentByID(Long studentId);
+    StudentDto getStudentByEmail(String email);
 }

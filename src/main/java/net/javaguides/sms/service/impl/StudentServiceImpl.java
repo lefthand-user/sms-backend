@@ -63,4 +63,16 @@ public class StudentServiceImpl implements StudentService {
 
         studentRepository.deleteById(studentId);
     }
+
+    @Override
+    public StudentDto getStudentByEmail(String email) {
+        Student student = studentRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Student does not exist with email: " + email
+                        )
+                );
+
+        return StudentMapper.mapToStudentDto(student);
+    }
 }

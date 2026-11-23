@@ -45,4 +45,13 @@ public class StudentController {
 
         return ResponseEntity.ok("Student " + studentId + " deleted successfully!");
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<StudentDto> getStudentByEmail(
+            @RequestParam("email") String email) {
+
+        StudentDto studentDto = studentService.getStudentByEmail(email);
+
+        return ResponseEntity.ok(studentDto);
+    }
 }
