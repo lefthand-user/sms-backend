@@ -8,6 +8,9 @@ import net.javaguides.sms.mapper.StudentMapper;
 import net.javaguides.sms.repository.StudentRepository;
 import net.javaguides.sms.service.StudentService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +21,10 @@ public class StudentServiceImpl implements StudentService {
 
     private StudentRepository studentRepository;
     @Override
+    @Transactional(
+            propagation = Propagation.REQUIRED,
+            isolation = Isolation.READ_COMMITTED
+    )
     public StudentDto createStudent(StudentDto studentDto) {
         Student student = StudentMapper.mapToStudent(studentDto);
         Student savedStudent = studentRepository.save(student);
@@ -41,6 +48,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @Transactional(
+            propagation = Propagation.REQUIRED,
+            isolation = Isolation.READ_COMMITTED
+    )
     public StudentDto updateStudent(Long studentId, StudentDto updatedStudent) {
         Student student = studentRepository.findById(studentId).orElseThrow(
                 () -> new ResourceNotFoundException("Student does not exist by the given id: " + studentId)
@@ -52,10 +63,16 @@ public class StudentServiceImpl implements StudentService {
 
         Student updatedStudentObj =  studentRepository.save(student);
 
+        //throw new RuntimeException("Testing transaction rollback");
+
         return StudentMapper.mapToStudentDto(updatedStudentObj);
     }
 
     @Override
+    @Transactional(
+            propagation = Propagation.REQUIRED,
+            isolation = Isolation.READ_COMMITTED
+    )
     public void deleteStudentByID(Long studentId) {
         Student student = studentRepository.findById(studentId).orElseThrow(
                 () -> new ResourceNotFoundException("Student does not exist by the given id: " + studentId)
