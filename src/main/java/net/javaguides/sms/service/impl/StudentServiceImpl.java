@@ -1,6 +1,7 @@
 package net.javaguides.sms.service.impl;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.javaguides.sms.dto.StudentDto;
 import net.javaguides.sms.entity.Student;
 import net.javaguides.sms.exception.ResourceNotFoundException;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class StudentServiceImpl implements StudentService {
 
     private StudentRepository studentRepository;
@@ -26,8 +28,14 @@ public class StudentServiceImpl implements StudentService {
             isolation = Isolation.READ_COMMITTED
     )
     public StudentDto createStudent(StudentDto studentDto) {
+
+        log.info("Creating a new student");
+
         Student student = StudentMapper.mapToStudent(studentDto);
         Student savedStudent = studentRepository.save(student);
+
+        log.info("Student saved successfully with id: {}", savedStudent.getId());
+
         return StudentMapper.mapToStudentDto(savedStudent);
     }
 
