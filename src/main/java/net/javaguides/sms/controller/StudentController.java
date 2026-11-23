@@ -1,5 +1,6 @@
 package net.javaguides.sms.controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import net.javaguides.sms.dto.StudentDto;
 import net.javaguides.sms.service.StudentService;
@@ -16,7 +17,7 @@ public class StudentController {
     private StudentService studentService;
 
     @PostMapping
-    public ResponseEntity<StudentDto> createStudent(@RequestBody StudentDto studentDto) {
+    public ResponseEntity<StudentDto> createStudent(@Valid @RequestBody StudentDto studentDto) {
         StudentDto savedStudent = studentService.createStudent(studentDto);
         return new ResponseEntity<>(savedStudent, HttpStatus.CREATED);
     }
@@ -34,7 +35,7 @@ public class StudentController {
     }
     @PutMapping("/{id}")
     public ResponseEntity<StudentDto> updateStudent(@PathVariable("id") Long studentId,
-                                                    @RequestBody StudentDto updatedStudent) {
+                                                    @Valid @RequestBody StudentDto updatedStudent) {
         StudentDto studentDto = studentService.updateStudent(studentId, updatedStudent);
         return ResponseEntity.ok(studentDto);
     }
